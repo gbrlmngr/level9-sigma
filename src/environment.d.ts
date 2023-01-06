@@ -3,6 +3,7 @@ declare global {
     interface ProcessEnv {
       NODE_ENV: 'production' | 'development' | 'test' | 'demo';
       APPLICATION_PORT: string;
+      CACHE_TTL: string;
     }
   }
 }
