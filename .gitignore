@@ -131,3 +131,6 @@ dist
 
 # Local environment variable files
 .env.*.local
+
+# Certificates
+certs/

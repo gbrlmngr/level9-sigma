@@ -6,6 +6,8 @@ declare global {
       CACHE_TTL: string | number;
       THROTTLE_TTL: string | number;
       THROTTLE_LIMIT: string | number;
+      DATABASE_MYSQL_URL: string;
+      DATABASE_MYSQL_CA: string;
     }
   }
 }
