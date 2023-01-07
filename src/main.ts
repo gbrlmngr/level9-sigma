@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import * as compression from 'compression';
 import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
 
+import { ResponseInterceptor } from './common/interceptors/response/response.interceptor';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -19,6 +20,7 @@ async function bootstrap() {
   app.enableVersioning({ type: VersioningType.URI, defaultVersion: '0' });
   app.useLogger(app.get(Logger));
   app.useGlobalInterceptors(new LoggerErrorInterceptor());
+  app.useGlobalInterceptors(new ResponseInterceptor());
 
   const configService = app.get(ConfigService);
   const applicationPort = configService.get<number>('main.applicationPort');
@@ -33,4 +35,5 @@ async function bootstrap() {
 
   await app.listen(applicationPort);
 }
+
 bootstrap();
