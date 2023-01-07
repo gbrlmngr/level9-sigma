@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 
-export const DEFAULT_EXCEPTION_RESPONSE_CODE = 'EXCEPTION';
+export const DEFAULT_EXCEPTION_RESPONSE_CODE = 'exception';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {

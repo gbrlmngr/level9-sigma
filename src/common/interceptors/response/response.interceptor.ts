@@ -11,7 +11,7 @@ export interface Response<T> {
   _timestamp: Date;
 }
 
-export const DEFAULT_SUCCESS_RESPONSE_CODE = 'SUCCESS';
+export const DEFAULT_SUCCESS_RESPONSE_CODE = 'success';
 
 @Injectable()
 export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
@@ -23,7 +23,7 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
       map((data) => ({
         _timestamp: new Date().toISOString(),
         _code: data?._code ?? DEFAULT_SUCCESS_RESPONSE_CODE,
-        ...data,
+        ...(typeof data === 'object' ? data : { data }),
       })),
     );
   }
