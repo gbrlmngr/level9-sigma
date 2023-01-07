@@ -13,6 +13,7 @@ import { databaseConfiguration } from './configuration/database';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { environmentSchema } from './env.schema';
+import { GeneratorModule } from './generator/generator.module';
 
 const isEnvironment = (environment: NodeJS.ProcessEnv['NODE_ENV']) => {
   return process.env.NODE_ENV === environment;
@@ -102,6 +103,8 @@ const isEnvironment = (environment: NodeJS.ProcessEnv['NODE_ENV']) => {
         },
       }),
     }),
+
+    GeneratorModule,
   ],
   controllers: [AppController],
   providers: [
