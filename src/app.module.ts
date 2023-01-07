@@ -1,9 +1,11 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
+import { randomUUID } from 'crypto';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { CacheInterceptor, CacheModule, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { LoggerModule } from 'nestjs-pino';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { mainConfiguration } from './configuration/main';
@@ -44,6 +46,41 @@ const isEnvironment = (environment: NodeJS.ProcessEnv['NODE_ENV']) => {
       useFactory: async (configService: ConfigService) => ({
         ttl: configService.get<number>('main.throttleTTL'),
         limit: configService.get<number>('main.throttleLimit'),
+      }),
+    }),
+    LoggerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        pinoHttp: {
+          level: configService.get<string>('main.logger.level'),
+          redact: configService.get<string[]>('main.logger.redactedParameters'),
+          customSuccessMessage: (req, res) => {
+            return `[${req.id}] ${req.method} ${req.url} ${res.statusCode}`;
+          },
+          customErrorMessage: (req, res) => {
+            return `[${req.id}] ${req.method} ${req.url} ${res.statusCode}`;
+          },
+          genReqId: (req, res) => {
+            if (req.id) return req.id;
+            if (req.headers['x-request-id']) return req.headers['x-request-id'];
+
+            const requestId = randomUUID();
+            res.setHeader('x-request-id', requestId);
+            return requestId;
+          },
+          transport: isEnvironment('production')
+            ? undefined
+            : {
+                target: 'pino-pretty',
+                options: {
+                  colorize: true,
+                  singleLine: true,
+                  levelFirst: false,
+                  ignore: 'pid,hostname,req,res',
+                },
+              },
+        },
       }),
     }),
 

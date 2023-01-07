@@ -33,6 +33,9 @@
     "helmet": "^6.0.1",
     "joi": "^17.7.0",
     "mysql2": "^2.3.3",
+    "nestjs-pino": "^3.1.2",
+    "pino-http": "^8.3.1",
+    "pino-pretty": "^9.1.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
     "typeorm": "^0.3.11"
