@@ -6,6 +6,7 @@ import * as compression from 'compression';
 import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
 
 import { ResponseInterceptor } from './common/interceptors/response/response.interceptor';
+import { HttpExceptionFilter } from './common/filters/http-exception/http-exception.filter';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -21,6 +22,7 @@ async function bootstrap() {
   app.useLogger(app.get(Logger));
   app.useGlobalInterceptors(new LoggerErrorInterceptor());
   app.useGlobalInterceptors(new ResponseInterceptor());
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   const configService = app.get(ConfigService);
   const applicationPort = configService.get<number>('main.applicationPort');
