@@ -15,6 +15,7 @@ import { AppService } from './app.service';
 import { environmentSchema } from './env.schema';
 import { SpacesModule } from './spaces/spaces.module';
 import { GeneratorModule } from './generator/generator.module';
+import { AuditModule } from './audit/audit.module';
 
 const isEnvironment = (environment: NodeJS.ProcessEnv['NODE_ENV']) => {
   return process.env.NODE_ENV === environment;
@@ -106,6 +107,7 @@ const isEnvironment = (environment: NodeJS.ProcessEnv['NODE_ENV']) => {
     }),
 
     GeneratorModule,
+    AuditModule,
     SpacesModule,
   ],
   controllers: [AppController],
