@@ -25,5 +25,5 @@ export const auditEntrySchema = joi.object<AuditEntry>({
   loggedAt: joi.date().required(),
 
   /* @TODO: Update after these entities are created */
-  principalId: joi.any(),
+  principal: joi.any(),
 });

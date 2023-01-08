@@ -15,11 +15,10 @@ export const spaceSchema = joi.object<Space>({
   handle: joi.string().trim().alphanum().max(64).required(),
   flags: joi.string().trim().pattern(/\d+/).max(53).required(),
   accessibility: joi.string().trim().valid(Open, Restricted, Closed).required(),
-  apiKey: joi.string().trim().max(64).required(),
   createdAt: joi.date(),
   updatedAt: joi.date(),
 
   /* @TODO: Update after these entities are created */
-  ownerId: joi.any(),
+  owner: joi.any(),
   disabledBy: joi.any(),
 });

@@ -42,12 +42,8 @@ export class Space {
   accessibility: SpaceAccessibility;
 
   @Index()
-  @Column({ name: 'api_key', length: 64 })
-  apiKey: string;
-
-  @Index()
-  @Column({ name: 'owner' })
-  ownerId: string; /* @TODO: Replace with the User entity, once created */
+  @Column({ name: 'owner_id', length: 64 })
+  owner: string; /* @TODO: Replace with the User entity, once created */
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt?: Date;

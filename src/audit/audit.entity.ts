@@ -1,4 +1,10 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  PrimaryColumn,
+} from 'typeorm';
 
 export enum AuditActions {
   Create = 'create',
@@ -15,12 +21,14 @@ export class AuditEntry {
   @PrimaryColumn({ unique: true, name: 'id', length: 64, update: false })
   id: string;
 
-  @Column({ name: 'principal', length: 64 })
-  principalId: string; /* @TODO: Replace with the User entity, once created */
+  @Index()
+  @Column({ name: 'principal_id', length: 64 })
+  principal: string; /* @TODO: Replace with the User entity, once created */
 
   @Column({ type: 'enum', enum: AuditActions, name: 'action' })
   action: string;
 
+  @Index()
   @Column({ name: 'resource_id', length: 64 })
   resourceId: string;
 
