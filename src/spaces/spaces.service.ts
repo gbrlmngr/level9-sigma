@@ -19,11 +19,11 @@ export class SpacesService {
     private readonly generatorService: GeneratorService,
   ) {}
 
-  async createOne(spaceDTO: Partial<Record<keyof Space, any>>) {
-    spaceDTO.id = this.generatorService.generateID(
+  async createOne(spaceDTO: Partial<Record<Exclude<keyof Space, 'id'>, any>>) {
+    const id = this.generatorService.generateID(
       `${IDENTIFIER_PREFIX}${REPLACEMENT_PLACEHOLDER}`,
     );
-    const validated = await spaceSchema.validateAsync(spaceDTO);
+    const validated = await spaceSchema.validateAsync({ id, ...spaceDTO });
     return this.spacesRepository.create(validated);
   }
 }

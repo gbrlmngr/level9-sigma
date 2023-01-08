@@ -7,16 +7,17 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-export enum SpaceVisibility {
+export enum SpaceAccessibility {
   Open = 'open',
   Restricted = 'restricted',
+  Closed = 'closed',
 }
 
 export const IDENTIFIER_PREFIX = 'spc_';
 
 @Entity({ name: 'spaces' })
 export class Space {
-  @PrimaryColumn({ unique: true, name: 'id', length: 64 })
+  @PrimaryColumn({ unique: true, name: 'id', length: 64, update: false })
   id: string;
 
   @Column({ name: 'display_name', length: 64 })
@@ -34,17 +35,18 @@ export class Space {
 
   @Column({
     type: 'enum',
-    enum: SpaceVisibility,
-    default: SpaceVisibility.Open,
+    enum: SpaceAccessibility,
+    default: SpaceAccessibility.Open,
+    name: 'accessibility',
   })
-  visibility: SpaceVisibility;
+  accessibility: SpaceAccessibility;
 
   @Index()
   @Column({ name: 'api_key', length: 64 })
   apiKey: string;
 
   @Index()
-  @Column({ name: 'owner_id' })
+  @Column({ name: 'owner' })
   ownerId: string; /* @TODO: Replace with the User entity, once created */
 
   @CreateDateColumn({ name: 'created_at' })
