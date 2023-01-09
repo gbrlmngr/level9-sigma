@@ -7,8 +7,8 @@ import {
 import { map, Observable } from 'rxjs';
 
 export interface Response<T> {
-  _code: string;
-  _timestamp: Date;
+  meta: Record<string, any>;
+  data: T;
 }
 
 export const DEFAULT_SUCCESS_RESPONSE_CODE = 'success';
@@ -21,9 +21,11 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
   ): Observable<Response<T>> {
     return next.handle().pipe(
       map((data) => ({
-        _timestamp: new Date().toISOString(),
-        _code: data?._code ?? DEFAULT_SUCCESS_RESPONSE_CODE,
-        ...(typeof data === 'object' ? data : { data }),
+        meta: {
+          timestamp: new Date().toISOString(),
+          code: data?._code ?? DEFAULT_SUCCESS_RESPONSE_CODE,
+        },
+        data,
       })),
     );
   }
