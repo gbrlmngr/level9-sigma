@@ -11,6 +11,8 @@ import {
   UpdateEvent,
 } from 'typeorm';
 
+import { PRINCIPAL_TOKEN } from 'src/audit/audit.constants';
+import { AuditActions } from 'src/audit/audit.entity';
 import { AuditService } from 'src/audit/audit.service';
 import { Space } from './space.entity';
 
@@ -30,9 +32,35 @@ export class SpacesSubscriber implements EntitySubscriberInterface<Space> {
     return Space;
   }
 
-  /* eslint-disable */
-  async afterInsert(event: InsertEvent<Space>) {}
+  async afterInsert(event: InsertEvent<Space>) {
+    const { entity } = event;
+    const principal = this.clsService.get(PRINCIPAL_TOKEN);
 
+    try {
+      if (!principal) {
+        throw new Error(
+          `"${PRINCIPAL_TOKEN}" not set. Cannot save audit information.`,
+        );
+      }
+
+      const auditEntry = await this.auditService.createOne({
+        principal,
+        action: AuditActions.Create,
+        resourceId: entity.id,
+        beforeStateJSON: '',
+        afterStateJSON: JSON.stringify(entity),
+        loggedAt: new Date(),
+      });
+
+      if (auditEntry) {
+        await this.auditService.save(auditEntry);
+      }
+    } catch (exception) {
+      this.logger.warn(`AfterInsert Exception: ${exception.message}`);
+    }
+  }
+
+  /* eslint-disable */
   async beforeUpdate(event: UpdateEvent<Space>) {}
 
   async afterRemove(event: RemoveEvent<Space>) {}

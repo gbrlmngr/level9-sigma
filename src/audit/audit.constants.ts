@@ -1,0 +1,1 @@
+export const PRINCIPAL_TOKEN = 'PRINCIPAL';
