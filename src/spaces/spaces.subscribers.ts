@@ -10,6 +10,8 @@ import {
   SoftRemoveEvent,
   UpdateEvent,
 } from 'typeorm';
+
+import { AuditService } from 'src/audit/audit.service';
 import { Space } from './space.entity';
 
 @EventSubscriber()
@@ -19,6 +21,7 @@ export class SpacesSubscriber implements EntitySubscriberInterface<Space> {
   constructor(
     private readonly dataSource: DataSource,
     private readonly clsService: ClsService,
+    private readonly auditService: AuditService,
   ) {
     this.dataSource.subscribers.push(this);
   }

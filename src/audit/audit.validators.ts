@@ -20,8 +20,8 @@ export const auditEntrySchema = joi.object<AuditEntry>({
     .trim()
     .pattern(new RegExp('^[a-z]{3}_[a-z0-9]+$'))
     .required(),
-  beforeStateJSON: joi.string().allow('').required(),
-  afterStateJSON: joi.string().allow('').required(),
+  beforeStateJSON: joi.string().required(),
+  afterStateJSON: joi.string().required(),
   loggedAt: joi.date().required(),
 
   /* @TODO: Update after these entities are created */
