@@ -31,9 +31,8 @@ async function bootstrap() {
     helmet({
       hidePoweredBy: true,
     }),
+    compression(),
   );
-
-  app.use(compression());
 
   await app.listen(applicationPort);
 }

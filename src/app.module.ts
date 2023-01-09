@@ -7,6 +7,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { LoggerModule } from 'nestjs-pino';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ClsModule } from 'nestjs-cls';
 
 import { mainConfiguration } from './configuration/main';
 import { databaseConfiguration } from './configuration/database';
@@ -23,6 +24,10 @@ const isEnvironment = (environment: NodeJS.ProcessEnv['NODE_ENV']) => {
 
 @Module({
   imports: [
+    ClsModule.forRoot({
+      global: true,
+      middleware: { mount: true },
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       cache: true,
