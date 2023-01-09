@@ -25,6 +25,7 @@ export class AuditEntry {
   @Column({ name: 'principal_id', length: 64 })
   principal: string; /* @TODO: Replace with the User entity, once created */
 
+  @Index()
   @Column({ type: 'enum', enum: AuditActions, name: 'action' })
   action: string;
 
