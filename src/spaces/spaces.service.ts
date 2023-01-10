@@ -26,4 +26,14 @@ export class SpacesService {
     const validated = await spaceSchema.validateAsync({ id, ...spaceDTO });
     return this.spacesRepository.create(validated);
   }
+
+  async save(spaces: Space[]) {
+    if (!spaces.every((entry) => entry instanceof Space)) {
+      throw new Error(
+        `All entries should be instances of Space. Use the "createOne" method first.`,
+      );
+    }
+
+    return await this.spacesRepository.save<Space>(spaces);
+  }
 }

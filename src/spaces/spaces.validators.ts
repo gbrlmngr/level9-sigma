@@ -11,9 +11,19 @@ export const spaceSchema = joi.object<Space>({
     .max(64)
     .required(),
   displayName: joi.string().trim().max(64).required(),
-  profileImageURL: joi.string().trim().uri({ scheme: 'https' }).max(512),
-  handle: joi.string().trim().alphanum().max(64).required(),
-  flags: joi.string().trim().pattern(/\d+/).max(53).required(),
+  profileImageURL: joi
+    .string()
+    .allow(null)
+    .trim()
+    .uri({ scheme: 'https' })
+    .max(512),
+  handle: joi
+    .string()
+    .trim()
+    .pattern(/^[a-z0-9\-]+$/)
+    .max(64)
+    .required(),
+  flags: joi.string().trim().pattern(/^\d+$/).max(53).required(),
   accessibility: joi.string().trim().valid(Open, Restricted, Closed).required(),
   createdAt: joi.date(),
   updatedAt: joi.date(),

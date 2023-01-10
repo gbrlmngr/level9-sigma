@@ -26,7 +26,7 @@ export class Space {
   @Column({ name: 'profile_image_url', length: 512, nullable: true })
   profileImageURL?: string;
 
-  @Index()
+  @Index({ unique: true })
   @Column({ name: 'handle', length: 64 })
   handle: string;
 

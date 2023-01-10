@@ -39,7 +39,7 @@ export class SpacesSubscriber implements EntitySubscriberInterface<Space> {
     try {
       if (!principal) {
         throw new Error(
-          `"${PRINCIPAL_TOKEN}" not set. Cannot save audit information.`,
+          `"${PRINCIPAL_TOKEN}" not set. Cannot save audit information for Space ID "${entity.id}".`,
         );
       }
 
@@ -53,7 +53,7 @@ export class SpacesSubscriber implements EntitySubscriberInterface<Space> {
       });
 
       if (auditEntry) {
-        await this.auditService.save(auditEntry);
+        await this.auditService.save([auditEntry]);
       }
     } catch (exception) {
       this.logger.warn(`AfterInsert Exception: ${exception.message}`);

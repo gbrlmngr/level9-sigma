@@ -53,7 +53,7 @@ export class AuditService {
     return this.auditRepository.create(validated);
   }
 
-  async save(...auditEntries: AuditEntry[]) {
+  async save(auditEntries: AuditEntry[]) {
     if (!auditEntries.every((entry) => entry instanceof AuditEntry)) {
       throw new Error(
         `All entries should be instances of AuditEntry. Use the "createOne" method first.`,
