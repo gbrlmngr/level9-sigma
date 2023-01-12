@@ -1,4 +1,5 @@
 import {
+  Column,
   CreateDateColumn,
   Entity,
   Index,
@@ -8,7 +9,13 @@ import {
 } from 'typeorm';
 
 import { User } from 'src/users/user.entity';
-import { Space } from './space.entity';
+import { Space } from '../spaces/space.entity';
+
+export enum MembershipStatuses {
+  Pending = 'pending',
+  Accepted = 'accepted',
+  Rejected = 'rejected',
+}
 
 export const IDENTIFIER_PREFIX = 'spm_';
 
@@ -25,6 +32,18 @@ export class SpacesMembership {
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: User;
+
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'invited_by', referencedColumnName: 'id' })
+  invitedBy: User;
+
+  @Column({
+    type: 'enum',
+    enum: MembershipStatuses,
+    name: 'status',
+    default: MembershipStatuses.Pending,
+  })
+  status: MembershipStatuses;
 
   @CreateDateColumn({ type: 'datetime', precision: 6, name: 'created_at' })
   createdAt?: Date;
