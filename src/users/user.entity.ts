@@ -3,9 +3,13 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { SpacesMembership } from 'src/spaces/spaces-membership.entity';
+
+export const IDENTIFIER_PREFIX = 'usr_';
 
 @Entity({ name: 'users' })
 export class User {
@@ -42,8 +46,11 @@ export class User {
   @Column({ type: 'text', name: 'functional_variants_json' })
   functionalVariantsJSON?: string;
 
-  /* @TODO: https://github.com/typeorm/typeorm/issues/1224 */
-  // spaceMemberships?: Space[];
+  @OneToMany(
+    () => SpacesMembership,
+    (spaceMembership) => spaceMembership.userId,
+  )
+  spaceMemberships: SpacesMembership[];
 
   @Column({ type: 'bool', name: 'has_enabled_otp', default: false })
   hasEnabledOTP?: boolean;

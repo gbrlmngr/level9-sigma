@@ -3,9 +3,11 @@ import {
   CreateDateColumn,
   Entity,
   Index,
+  OneToMany,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { SpacesMembership } from './spaces-membership.entity';
 
 export enum SpaceAccessibility {
   Open = 'open',
@@ -40,6 +42,12 @@ export class Space {
     name: 'accessibility',
   })
   accessibility: SpaceAccessibility;
+
+  @OneToMany(
+    () => SpacesMembership,
+    (spaceMembership) => spaceMembership.spaceId,
+  )
+  members: SpacesMembership[];
 
   @Index()
   @Column({ name: 'owner_id', length: 64 })
