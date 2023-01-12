@@ -3,29 +3,31 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  OneToMany,
+  Index,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { SpacesMembership } from 'src/spaces/spaces-membership.entity';
 
 export const IDENTIFIER_PREFIX = 'usr_';
 
 @Entity({ name: 'users' })
 export class User {
-  @PrimaryColumn({ unique: true, name: 'id', length: 64, update: false })
+  @PrimaryColumn({ name: 'id', length: 64, unique: true, update: false })
   id: string;
 
+  @Index()
   @Column({ name: 'email_address', length: 96 })
   emailAddress: string;
 
+  @Index()
   @Column({ name: 'display_name', length: 64 })
   displayName: string;
 
   @Column({ name: 'profile_image_url', length: 512, nullable: true })
   profileImageURL?: string;
 
-  @Column({ name: 'handle', length: 64 })
+  @Index()
+  @Column({ name: 'handle', length: 64, unique: true })
   handle: string;
 
   @Column({ name: 'password_hash', length: 256 })
@@ -34,6 +36,7 @@ export class User {
   @Column({ name: 'otp_secret', length: 48 })
   otpSecret: string;
 
+  @Index()
   @Column({ name: 'api_key', length: 64 })
   apiKey?: string;
 
@@ -45,12 +48,6 @@ export class User {
 
   @Column({ type: 'text', name: 'functional_variants_json' })
   functionalVariantsJSON?: string;
-
-  @OneToMany(
-    () => SpacesMembership,
-    (spaceMembership) => spaceMembership.userId,
-  )
-  spaceMemberships: SpacesMembership[];
 
   @Column({ type: 'bool', name: 'has_enabled_otp', default: false })
   hasEnabledOTP?: boolean;

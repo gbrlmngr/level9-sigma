@@ -18,11 +18,11 @@ export class SpacesMembership {
 
   @ManyToOne(() => Space, (space) => space.id)
   @JoinColumn({ name: 'space_id' })
-  spaceId: Space['id'];
+  space: Space;
 
   @ManyToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'user_id' })
-  userId: User['id'];
+  user: User;
 
   @CreateDateColumn({ type: 'datetime', precision: 6, name: 'created_at' })
   createdAt?: Date;

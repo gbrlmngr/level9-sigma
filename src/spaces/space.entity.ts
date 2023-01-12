@@ -1,13 +1,16 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   Index,
-  OneToMany,
+  JoinColumn,
+  ManyToOne,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { SpacesMembership } from './spaces-membership.entity';
+
+import { User } from 'src/users/user.entity';
 
 export enum SpaceAccessibility {
   Open = 'open',
@@ -19,22 +22,28 @@ export const IDENTIFIER_PREFIX = 'spc_';
 
 @Entity({ name: 'spaces' })
 export class Space {
-  @PrimaryColumn({ unique: true, name: 'id', length: 64, update: false })
+  @PrimaryColumn({ name: 'id', length: 64, unique: true, update: false })
   id: string;
 
+  @Index()
   @Column({ name: 'display_name', length: 64 })
   displayName: string;
 
   @Column({ name: 'profile_image_url', length: 512, nullable: true })
   profileImageURL?: string;
 
-  @Index({ unique: true })
-  @Column({ name: 'handle', length: 64 })
+  @Index()
+  @Column({ name: 'handle', length: 64, unique: true })
   handle: string;
 
-  @Column({ name: 'flags', length: 53 })
-  flags: string;
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'owner_id' })
+  owner: User;
 
+  @Column({ name: 'flag_bits', length: 53 })
+  flagBits: string;
+
+  @Index()
   @Column({
     type: 'enum',
     enum: SpaceAccessibility,
@@ -43,22 +52,15 @@ export class Space {
   })
   accessibility: SpaceAccessibility;
 
-  @OneToMany(
-    () => SpacesMembership,
-    (spaceMembership) => spaceMembership.spaceId,
-  )
-  members: SpacesMembership[];
+  @Column({ type: 'text', name: 'functional_variants_json' })
+  functionalVariantsJSON?: string;
 
-  @Index()
-  @Column({ name: 'owner_id', length: 64 })
-  owner: string; /* @TODO: Replace with the User entity, once created */
-
-  @CreateDateColumn({ name: 'created_at' })
+  @CreateDateColumn({ type: 'datetime', precision: 6, name: 'created_at' })
   createdAt?: Date;
 
-  @UpdateDateColumn({ name: 'updated_at' })
+  @UpdateDateColumn({ type: 'datetime', precision: 6, name: 'updated_at' })
   updatedAt?: Date;
 
-  @Column({ name: 'disabled_by', nullable: true })
-  disabledBy?: string; /* @TODO: Replace with the AuditEntry entity, once created */
+  @DeleteDateColumn({ type: 'datetime', precision: 6, name: 'locked_at' })
+  lockedAt?: Date;
 }

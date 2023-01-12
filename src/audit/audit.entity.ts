@@ -18,12 +18,12 @@ export const IDENTIFIER_PREFIX = 'aud_';
 
 @Entity({ name: 'audit' })
 export class AuditEntry {
-  @PrimaryColumn({ unique: true, name: 'id', length: 64, update: false })
+  @PrimaryColumn({ name: 'id', length: 64, unique: true, update: false })
   id: string;
 
   @Index()
   @Column({ name: 'principal_id', length: 64 })
-  principal: string; /* @TODO: Replace with the User entity, once created */
+  principalId: string;
 
   @Index()
   @Column({ type: 'enum', enum: AuditActions, name: 'action' })

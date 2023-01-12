@@ -34,17 +34,17 @@ export class SpacesSubscriber implements EntitySubscriberInterface<Space> {
 
   async afterInsert(event: InsertEvent<Space>) {
     const { entity } = event;
-    const principal = this.clsService.get(PRINCIPAL_TOKEN);
+    const principalId = this.clsService.get(PRINCIPAL_TOKEN) as string;
 
     try {
-      if (!principal) {
+      if (!principalId) {
         throw new Error(
           `"${PRINCIPAL_TOKEN}" not set. Cannot save audit information for Space ID "${entity.id}".`,
         );
       }
 
       const auditEntry = await this.auditService.createOne({
-        principal,
+        principalId,
         action: AuditActions.Create,
         resourceId: entity.id,
         beforeStateJSON: '',
