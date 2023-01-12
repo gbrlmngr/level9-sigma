@@ -18,6 +18,7 @@ import { SpacesModule } from './spaces/spaces.module';
 import { GeneratorModule } from './generator/generator.module';
 import { AuditModule } from './audit/audit.module';
 import { UsersModule } from './users/users.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 const isEnvironment = (environment: NodeJS.ProcessEnv['NODE_ENV']) => {
   return process.env.NODE_ENV === environment;
@@ -114,6 +115,7 @@ const isEnvironment = (environment: NodeJS.ProcessEnv['NODE_ENV']) => {
 
     GeneratorModule,
     AuditModule,
+    NotificationsModule,
     SpacesModule,
     UsersModule,
   ],
