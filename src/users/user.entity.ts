@@ -36,10 +36,6 @@ export class User {
   @Column({ name: 'otp_secret', length: 48 })
   otpSecret: string;
 
-  @Index()
-  @Column({ name: 'api_key', length: 64 })
-  apiKey?: string;
-
   @Column({ name: 'flag_bits', length: 53 })
   flagBits: string;
 
