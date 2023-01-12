@@ -8,7 +8,6 @@ import {
 } from 'src/generator/generator.service';
 import { IDENTIFIER_PREFIX, Space } from './space.entity';
 import { spaceSchema } from './spaces.validators';
-import { SpacesMembership } from './spaces-membership.entity';
 
 @Injectable()
 export class SpacesService {
@@ -17,7 +16,6 @@ export class SpacesService {
   constructor(
     @InjectRepository(Space)
     private readonly spacesRepository: Repository<Space>,
-    @InjectRepository(SpacesMembership)
     private readonly generatorService: GeneratorService,
   ) {}
 
