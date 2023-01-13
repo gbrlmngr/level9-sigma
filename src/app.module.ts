@@ -20,6 +20,7 @@ import { AuditModule } from './audit/audit.module';
 import { UsersModule } from './users/users.module';
 import { SpacesMembershipsModule } from './spaces-memberships/spaces-memberships.module';
 import { MessagesModule } from './messages/messages.module';
+import { AuthenticationModule } from './authentication/authentication.module';
 
 const isEnvironment = (environment: NodeJS.ProcessEnv['NODE_ENV']) => {
   return process.env.NODE_ENV === environment;
@@ -114,6 +115,7 @@ const isEnvironment = (environment: NodeJS.ProcessEnv['NODE_ENV']) => {
       }),
     }),
 
+    AuthenticationModule,
     GeneratorModule,
     AuditModule,
     MessagesModule,
@@ -123,9 +125,9 @@ const isEnvironment = (environment: NodeJS.ProcessEnv['NODE_ENV']) => {
   ],
   controllers: [AppController],
   providers: [
-    AppService,
     { provide: APP_INTERCEPTOR, useClass: CacheInterceptor },
     { provide: APP_GUARD, useClass: ThrottlerGuard },
+    AppService,
   ],
 })
 export class AppModule {}

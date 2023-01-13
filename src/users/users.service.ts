@@ -33,6 +33,10 @@ export class UsersService {
   async findOneByEmailAddress(emailAddress: User['emailAddress']) {
     return await this.findOneBy<typeof emailAddress>({ emailAddress });
   }
+
+  async findOneByCredentials(emailAddress: User['emailAddress']) {
+    return await this.findOneBy<typeof emailAddress>({ emailAddress }, 'all');
+  }
 }
 
 /**
@@ -79,6 +83,6 @@ function getUserFields(
       );
 
     default:
-      return [];
+      return ['id'];
   }
 }
