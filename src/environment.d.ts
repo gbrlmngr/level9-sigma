@@ -8,6 +8,7 @@ declare global {
       THROTTLE_LIMIT: string | number;
       DATABASE_MYSQL_URL: string;
       DATABASE_MYSQL_CA: string;
+      JWT_SECRET: string;
     }
   }
 }

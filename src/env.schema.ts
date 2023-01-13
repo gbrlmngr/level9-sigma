@@ -13,5 +13,7 @@ export const environmentSchema = joi
 
     DATABASE_MYSQL_URL: joi.string().uri().required(),
     DATABASE_MYSQL_CA: joi.string().required(),
+
+    JWT_SECRET: joi.string().required(),
   })
   .unknown(false);

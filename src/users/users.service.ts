@@ -35,7 +35,12 @@ export class UsersService {
   }
 
   async findOneByCredentials(emailAddress: User['emailAddress']) {
-    return await this.findOneBy<typeof emailAddress>({ emailAddress }, 'all');
+    return await this.findOneBy<typeof emailAddress>({ emailAddress }, [
+      'id',
+      'passwordHash',
+      'flagBits',
+      'permissionBits',
+    ]);
   }
 }
 
@@ -43,7 +48,7 @@ export class UsersService {
  * Returns the User entity fields as an array
  * Used inside the `select` parameter of TypeORM Find*Options
  *
- * @param {Array | 'all' | 'ignore-sensitive'} fields
+ * @param {(keyof User[]) | 'all' | 'ignore-sensitive'} fields
  * @returns {(keyof User)[]} User fields
  */
 function getUserFields(
