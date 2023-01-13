@@ -34,6 +34,10 @@ export class Message {
   bodyMarkdown: string;
 
   @ManyToOne(() => User)
+  @JoinColumn({ name: 'sender_id', referencedColumnName: 'id' })
+  sender: User;
+
+  @ManyToOne(() => User)
   @JoinColumn({ name: 'receiver_id', referencedColumnName: 'id' })
   receiver: User;
 

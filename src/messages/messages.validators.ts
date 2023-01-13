@@ -20,6 +20,16 @@ export const messageSchema = joi.object<Message>({
     .required(),
   title: joi.string().trim().max(128).required(),
   bodyMarkdown: joi.string().trim().required(),
+  sender: joi
+    .object({
+      id: joi
+        .string()
+        .trim()
+        .pattern(new RegExp(`^${USER_IDENTIFIER_PREFIX}[a-z0-9]+$`))
+        .max(64)
+        .required(),
+    })
+    .required(),
   receiver: joi
     .object({
       id: joi
