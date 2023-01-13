@@ -8,17 +8,22 @@ import {
 } from 'typeorm';
 import { User } from 'src/users/user.entity';
 
-export enum NotificationPriorities {
+export enum MessageTypes {
+  System = 'system',
+  User = 'user',
+}
+
+export enum MessagePriorities {
   Urgent = 'urgent',
   High = 'high',
   Medium = 'medium',
   Low = 'low',
 }
 
-export const IDENTIFIER_PREFIX = 'ntf_';
+export const IDENTIFIER_PREFIX = 'msg_';
 
-@Entity({ name: 'notifications' })
-export class Notification {
+@Entity({ name: 'messages' })
+export class Message {
   @PrimaryColumn({ name: 'id', length: 64, unique: true, update: false })
   id: string;
 
@@ -32,8 +37,11 @@ export class Notification {
   @JoinColumn({ name: 'receiver_id', referencedColumnName: 'id' })
   receiver: User;
 
-  @Column({ type: 'enum', enum: NotificationPriorities, name: 'priority' })
-  priority: NotificationPriorities;
+  @Column({ type: 'enum', enum: MessageTypes, name: 'type' })
+  type: MessageTypes;
+
+  @Column({ type: 'enum', enum: MessagePriorities, name: 'priority' })
+  priority: MessagePriorities;
 
   @Column({ type: 'simple-array', name: 'tags', nullable: true })
   tags?: string[];
