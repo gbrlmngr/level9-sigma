@@ -9,6 +9,8 @@ declare global {
       DATABASE_MYSQL_URL: string;
       DATABASE_MYSQL_CA: string;
       JWT_SECRET: string;
+      SMTP_ACCOUNT_USERNAME: string;
+      SMTP_ACCOUNT_PASSWORD: string;
     }
   }
 }

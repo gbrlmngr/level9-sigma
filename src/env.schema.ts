@@ -15,5 +15,8 @@ export const environmentSchema = joi
     DATABASE_MYSQL_CA: joi.string().required(),
 
     JWT_SECRET: joi.string().required(),
+
+    SMTP_ACCOUNT_USERNAME: joi.string().required(),
+    SMTP_ACCOUNT_PASSWORD: joi.string().required(),
   })
   .unknown(false);

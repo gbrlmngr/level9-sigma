@@ -12,6 +12,8 @@ import { ClsModule } from 'nestjs-cls';
 import { mainConfiguration } from './configuration/main';
 import { databaseConfiguration } from './configuration/database';
 import { jwtConfiguration } from './configuration/jwt';
+import { emailConfiguration } from './configuration/email';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { environmentSchema } from './env.schema';
@@ -23,6 +25,7 @@ import { SpacesMembershipsModule } from './spaces-memberships/spaces-memberships
 import { MessagesModule } from './messages/messages.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { JwtAuthenticationGuard } from './authentication/guards/jwt-authentication.guard';
+import { EmailModule } from './email/email.module';
 
 const isEnvironment = (environment: NodeJS.ProcessEnv['NODE_ENV']) => {
   return process.env.NODE_ENV === environment;
@@ -40,7 +43,12 @@ const isEnvironment = (environment: NodeJS.ProcessEnv['NODE_ENV']) => {
       expandVariables: true,
       ignoreEnvFile: isEnvironment('production'),
       envFilePath: ['.env.development.local'],
-      load: [mainConfiguration, databaseConfiguration, jwtConfiguration],
+      load: [
+        mainConfiguration,
+        databaseConfiguration,
+        jwtConfiguration,
+        emailConfiguration,
+      ],
       validationSchema: environmentSchema,
       validationOptions: {
         abortEarly: isEnvironment('production'),
@@ -116,6 +124,7 @@ const isEnvironment = (environment: NodeJS.ProcessEnv['NODE_ENV']) => {
         },
       }),
     }),
+    EmailModule.forRoot({ env: process.env.NODE_ENV }),
 
     AuthenticationModule,
     GeneratorModule,
