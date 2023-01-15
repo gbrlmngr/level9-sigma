@@ -1,7 +1,7 @@
 import { ConfigurableModuleBuilder } from '@nestjs/common';
-import { GeneratorOptions } from './generator.module';
+import { GeneratorModuleOptions } from './generator.module';
 
 export const { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } =
-  new ConfigurableModuleBuilder<GeneratorOptions>()
+  new ConfigurableModuleBuilder<GeneratorModuleOptions>()
     .setClassMethodName('forRoot')
     .build();
